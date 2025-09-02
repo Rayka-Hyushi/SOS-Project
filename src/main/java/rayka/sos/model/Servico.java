@@ -1,0 +1,39 @@
+package rayka.sos.model;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Table(name = "servico")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Servico {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long sid;
+
+    @Column(nullable = false, length = 50)
+    private String service;
+
+    @Column(nullable = false, length = 100)
+    private String description;
+
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal value;
+
+    @ManyToOne
+    @JoinColumn(nullable = false, name = "u_id")
+    private Usuario usuario;
+
+    @ManyToMany(mappedBy = "servicos")
+    private Set<OrdemServico> ordens = new HashSet<>();
+}

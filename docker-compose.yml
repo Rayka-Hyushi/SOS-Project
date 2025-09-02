@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:17 #Imagem do postgres versão 17
+    container_name: postgresql #Nome do container do postgres
+    restart: always #Sempre reiniciar o container caso ele pare por algum motivo
+    environment:
+        POSTGRES_USER: postgres #Usuario
+        POSTGRES_PASSWORD: 1234 #Senha
+        POSTGRES_DB: sos_database #E nome do banco
+    ports:
+        - "5433:5432" #Porta onde roda o banco 5433:5432 = local:container
+    volumes:
+        - sos-system_data:/var/lib/postgresql/data #Volume para guardar dados do banco
+
+volumes:
+  se-system_data:
