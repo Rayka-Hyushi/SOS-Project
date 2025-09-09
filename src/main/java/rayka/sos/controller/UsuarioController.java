@@ -1,43 +1,38 @@
 package rayka.sos.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import rayka.sos.model.Usuario;
 import rayka.sos.service.UsuarioService;
 
-import java.io.IOException;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
 
-    private UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
 
     public UsuarioController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
     }
 
-    /*@PostMapping("/login")
-    public Usuario login(@RequestParam String email, @RequestParam String pass) {
-        Usuario usuario = usuarioService.login(email, pass);
-        if(usuario != null){
-            return "pagina do usuario";
-        }
-    }*/
-
-    /*@GetMapping
-    public String userProfile(Model model) {
-        return "";
+    @PostMapping
+    public ResponseEntity<Usuario> create(@RequestBody Usuario usuario) {
+        Usuario salvo = usuarioService.save(usuario);
+        return ResponseEntity.ok(salvo);
     }
 
-    @PostMapping("/alterar")
-    public String alterar(@RequestParam String username,
-                          @RequestParam String email,
-                          @RequestParam String password,
-                          @RequestParam("photo")MultipartFile photo,
-                          Model model) throws IOException {
-    }*/
+    @GetMapping("/{uuid}")
+    public ResponseEntity<Usuario> userProfile(@PathVariable UUID uuid) {
+        Optional<Usuario> usuario = usuarioService.findByUuid(uuid);
+        return usuario.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable long id) {
+        usuarioService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
