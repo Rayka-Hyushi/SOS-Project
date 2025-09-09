@@ -21,9 +21,14 @@ public class UsuarioController {
     }
 
     /*@PostMapping("/login")
-    public Usuario login(@RequestBody Usuario usuario) {}
+    public Usuario login(@RequestParam String email, @RequestParam String pass) {
+        Usuario usuario = usuarioService.login(email, pass);
+        if(usuario != null){
+            return "pagina do usuario";
+        }
+    }*/
 
-    @GetMapping
+    /*@GetMapping
     public String userProfile(Model model) {
         return "";
     }
