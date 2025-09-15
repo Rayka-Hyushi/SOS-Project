@@ -11,7 +11,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
-
     private final UsuarioService usuarioService;
 
     public UsuarioController(UsuarioService usuarioService) {
@@ -20,6 +19,21 @@ public class UsuarioController {
 
     @PostMapping
     public ResponseEntity<Usuario> create(@RequestBody Usuario usuario) {
+        Usuario salvo = usuarioService.save(usuario);
+        return ResponseEntity.ok(salvo);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Usuario> login(@RequestAttribute String email, @RequestAttribute String password) {
+        Usuario usuario = usuarioService.login(email, password);
+        if (usuario != null) {
+            return ResponseEntity.ok(usuario);
+        }
+        return ResponseEntity.ok(null);
+    }
+
+    @PutMapping("/{uuid}")
+    public ResponseEntity<Usuario> update(@PathVariable UUID uuid, @RequestBody Usuario usuario) {
         Usuario salvo = usuarioService.save(usuario);
         return ResponseEntity.ok(salvo);
     }

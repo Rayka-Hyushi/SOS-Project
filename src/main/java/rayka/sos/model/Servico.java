@@ -21,7 +21,7 @@ import java.util.UUID;
 public class Servico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long sid;
+    private Long sid;
 
     @UuidGenerator
     private UUID uuid;

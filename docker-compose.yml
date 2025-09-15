@@ -13,4 +13,4 @@ services:
         - sos-system_data:/var/lib/postgresql/data #Volume para guardar dados do banco
 
 volumes:
-  se-system_data:
+  sos-system_data:

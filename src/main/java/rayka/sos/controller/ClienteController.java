@@ -13,7 +13,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/clientes")
 public class ClienteController {
-
     private final ClienteService clienteService;
 
     public ClienteController(ClienteService clienteService) {
@@ -29,6 +28,12 @@ public class ClienteController {
     @GetMapping
     public ResponseEntity<List<Cliente>> listar(@RequestBody Usuario usuario) {
         return ResponseEntity.ok(clienteService.read(usuario.getUuid()));
+    }
+
+    @PutMapping("/{uuid}")
+    public ResponseEntity<Cliente> update(@PathVariable UUID uuid, @RequestBody Cliente cliente) {
+        Cliente salvo = clienteService.save(cliente);
+        return ResponseEntity.ok(salvo);
     }
 
     @GetMapping("/{uuid}")

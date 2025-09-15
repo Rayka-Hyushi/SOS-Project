@@ -10,8 +10,9 @@ import java.util.UUID;
 
 @Repository
 public interface ServicoRepository extends JpaRepository<Servico, Long> {
-    Optional<Servico> findByUuid(UUID uuid);
+    // Buscar um serviço específico
+    Optional<Servico> findServicoByUuid(UUID uuid);
 
     // Buscar todos os serviços do usuário
-    List<Servico> findByServicoUuid(UUID servicoUuid);
+    List<Servico> findAllByUsuarioUuid(UUID usuarioUuid);
 }

@@ -23,7 +23,7 @@ public class ClienteService {
     }
 
     public Optional<Cliente> findByUuid(UUID Uuid) {
-        return clienteRepository.findByUuid(Uuid);
+        return clienteRepository.findClienteByUuid(Uuid);
     }
 
     public void delete(long id) {

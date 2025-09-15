@@ -14,7 +14,7 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     public Usuario login(String email, String password) {
-        return usuarioRepository.findByEmailAndPassword(email, password);
+        return usuarioRepository.findByEmailAndPass(email, password);
     }
 
     public Usuario save(Usuario usuario) {
