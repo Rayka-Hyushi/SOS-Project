@@ -26,7 +26,7 @@ public class ClienteController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Cliente>> listar(@RequestBody Usuario usuario) {
+    public ResponseEntity<List<Cliente>> read(@RequestBody Usuario usuario) {
         return ResponseEntity.ok(clienteService.read(usuario.getUuid()));
     }
 
@@ -43,7 +43,7 @@ public class ClienteController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         clienteService.delete(id);
         return ResponseEntity.noContent().build();
     }

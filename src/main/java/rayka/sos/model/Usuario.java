@@ -19,7 +19,7 @@ import java.util.UUID;
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long uid;
+    private Long uid;
 
     @UuidGenerator
     private UUID uuid;

@@ -18,7 +18,7 @@ import java.util.UUID;
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long cid;
+    private Long cid;
 
     @UuidGenerator
     private UUID uuid;

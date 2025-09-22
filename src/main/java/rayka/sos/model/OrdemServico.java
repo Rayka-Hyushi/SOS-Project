@@ -23,7 +23,7 @@ import java.util.UUID;
 public class OrdemServico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long osid;
+    private Long osid;
 
     @UuidGenerator
     private UUID uuid;

@@ -26,7 +26,7 @@ public class ServicoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Servico>> listar(@RequestBody Usuario usuario) {
+    public ResponseEntity<List<Servico>> read(@RequestBody Usuario usuario) {
         return ResponseEntity.ok(servicoService.read(usuario.getUuid()));
     }
 
