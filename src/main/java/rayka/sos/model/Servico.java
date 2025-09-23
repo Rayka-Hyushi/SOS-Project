@@ -32,7 +32,7 @@ public class Servico {
     @Column(nullable = false, length = 100)
     private String description;
 
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(nullable = false, precision = 5, scale = 2)
     private BigDecimal value;
 
     @ManyToOne

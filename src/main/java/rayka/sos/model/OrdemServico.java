@@ -47,13 +47,13 @@ public class OrdemServico {
     @Column(nullable = false, length = 500)
     private String description;
 
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(nullable = false, precision = 6, scale = 2)
     private BigDecimal extras;
 
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(nullable = false, precision = 6, scale = 2)
     private BigDecimal discount;
 
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(nullable = false, precision = 7, scale = 2)
     private BigDecimal total;
 
     @ManyToMany
