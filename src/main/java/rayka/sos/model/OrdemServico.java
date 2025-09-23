@@ -9,7 +9,6 @@ import org.hibernate.annotations.UuidGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -39,10 +38,11 @@ public class OrdemServico {
     private LocalDateTime opendate;
 
     @Column(length = 100)
-    private Date closedate;
+    private LocalDateTime closedate;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private String status;
+    private StatusOrdemServico status;
 
     @Column(nullable = false, length = 500)
     private String description;
