@@ -11,13 +11,15 @@ import java.util.UUID;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-    // Verifica se o usuario inserido no login existe
-    public Usuario findByEmailAndPass(String email, String pass);
-
-    // Busca um usuário específico
+    // Busca o usuário pelo e-mail
+    Optional<Usuario> findByEmail(String email);
+    
+    // Busca um usuário por uuid
     Optional<Usuario> findByUuid(UUID uuid);
 
     // Recupera a foto de perfil do usuário
     @Query("select photo from Usuario where uuid = :uuid")
-    public byte[] getPhoto(@Param("uuid") long uuid);
+    public byte[] getPhoto(@Param("uuid") UUID uuid);
+    
+    UUID uuid(UUID uuid);
 }
