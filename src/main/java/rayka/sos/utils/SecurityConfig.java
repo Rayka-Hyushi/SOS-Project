@@ -2,6 +2,7 @@ package rayka.sos.utils;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,9 +27,11 @@ public class SecurityConfig {
                     .requestMatchers("/api/usuarios").permitAll()
                     // Permite acesso público ao login
                     .requestMatchers("/api/usuarios/login").permitAll()
+                    // Permite acesso público aos endpoints para usuários logados
+                    .requestMatchers("/api/usuarios/**").authenticated()
                     // Exige autenticação para todas as outras requisições
                     .anyRequest().authenticated()
-                );
+                ).httpBasic(Customizer.withDefaults());
         return http.build();
     }
 }

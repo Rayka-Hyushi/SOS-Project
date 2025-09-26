@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import rayka.sos.dto.LoginDTO;
 import rayka.sos.dto.UsuarioDTO;
+import rayka.sos.dto.UsuarioPerfilDTO;
 import rayka.sos.model.Usuario;
 import rayka.sos.service.UsuarioService;
 
@@ -69,9 +70,9 @@ public class UsuarioController {
     
     // Endpoint para página de perfil
     @GetMapping("/{uuid}")
-    public ResponseEntity<Usuario> perfil(@PathVariable UUID uuid) {
+    public ResponseEntity<UsuarioPerfilDTO> perfil(@PathVariable UUID uuid) {
         Optional<Usuario> usuario = usuarioService.findUser(uuid);
-        return usuario.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+        return usuario.map(value -> new ResponseEntity<>(new UsuarioPerfilDTO(value), HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
     

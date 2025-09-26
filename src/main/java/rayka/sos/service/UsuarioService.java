@@ -1,6 +1,9 @@
 package rayka.sos.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,7 +17,26 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class UsuarioService {
+public class UsuarioService implements UserDetailsService {
+    
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado: " + email));
+        
+        // Você precisa mapear sua entidade Usuario para o UserDetails do Spring Security.
+        // Se você não tem uma classe de mapeamento, use a classe User (do Spring Security)
+        // para encapsular as credenciais e as roles (por enquanto, apenas uma lista vazia de roles).
+        
+        // Você precisa de um método findByEmail no seu UsuarioRepository.
+        
+        return org.springframework.security.core.userdetails.User.builder()
+                .username(usuario.getEmail())
+                .password(usuario.getPass()) // A senha DEVE ser a que está criptografada no banco
+                .roles("USER") // Defina uma role simples por enquanto.
+                .build();
+    }
+    
     @Autowired
     private final UsuarioRepository usuarioRepository;
     private final BCryptPasswordEncoder passwordEncoder;
