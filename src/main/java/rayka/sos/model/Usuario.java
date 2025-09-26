@@ -5,8 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.sql.Types;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,9 +34,10 @@ public class Usuario {
 
     @Column(nullable = false)
     private String pass;
-
+    
     @Lob
-    @Column(nullable = false)
+    @Column(name = "photo")
+    @JdbcTypeCode(Types.LONGVARBINARY) // Diz ao Hibernate para usar o tipo binário grande
     private byte[] photo;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)

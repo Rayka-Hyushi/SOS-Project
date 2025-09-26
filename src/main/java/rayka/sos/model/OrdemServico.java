@@ -23,39 +23,39 @@ public class OrdemServico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long osid;
-
+    
     @UuidGenerator
     private UUID uuid;
-
+    
     @ManyToOne
     @JoinColumn(nullable = false, name = "c_id")
     private Cliente cliente;
-
+    
     @Column(nullable = false, length = 50)
     private String device;
-
+    
     @Column(nullable = false, length = 100)
     private LocalDateTime opendate;
-
+    
     @Column(length = 100)
     private LocalDateTime closedate;
-
+    
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private StatusOrdemServico status;
-
+    
     @Column(nullable = false, length = 500)
     private String description;
-
+    
     @Column(nullable = false, precision = 6, scale = 2)
     private BigDecimal extras;
-
+    
     @Column(nullable = false, precision = 6, scale = 2)
     private BigDecimal discount;
-
+    
     @Column(nullable = false, precision = 7, scale = 2)
     private BigDecimal total;
-
+    
     @ManyToMany
     @JoinTable(
             name = "relacao_os",
@@ -63,7 +63,7 @@ public class OrdemServico {
             inverseJoinColumns = @JoinColumn(name = "s_id")
     )
     private Set<Servico> servicos = new HashSet<>();
-
+    
     @ManyToOne
     @JoinColumn(nullable = false, name = "u_id")
     private Usuario usuario;

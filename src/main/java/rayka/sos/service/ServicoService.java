@@ -14,24 +14,24 @@ import java.util.UUID;
 public class ServicoService {
     @Autowired
     private ServicoRepository servicoRepository;
-
+    
     public Servico save(Servico servico) {
         if (Objects.isNull(servico.getUsuario().getUid())) {
             System.out.println("Usuario nao encontrado");
             return null;
         }
-
+        
         return servicoRepository.save(servico);
     }
-
+    
     public List<Servico> read(UUID usuarioUuid) {
         return servicoRepository.findAllByUsuarioUuid(usuarioUuid);
     }
-
+    
     public Optional<Servico> findByUuid(UUID Uuid) {
         return servicoRepository.findServicoByUuid(Uuid);
     }
-
+    
     public void delete(long id) {
         servicoRepository.deleteById(id);
     }

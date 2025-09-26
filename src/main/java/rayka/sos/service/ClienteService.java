@@ -13,19 +13,19 @@ import java.util.UUID;
 public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
-
+    
     public Cliente save(Cliente cliente) {
         return clienteRepository.save(cliente);
     }
-
+    
     public List<Cliente> read(UUID usuarioUuid) {
         return clienteRepository.findAllByUsuarioUuid(usuarioUuid);
     }
-
+    
     public Optional<Cliente> findByUuid(UUID Uuid) {
         return clienteRepository.findClienteByUuid(Uuid);
     }
-
+    
     public void delete(long id) {
         clienteRepository.deleteById(id);
     }

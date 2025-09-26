@@ -16,10 +16,4 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     
     // Busca um usuário por uuid
     Optional<Usuario> findByUuid(UUID uuid);
-
-    // Recupera maven-wrapper.properties foto de perfil do usuário
-    @Query("select photo from Usuario where uuid = :uuid")
-    public byte[] getPhoto(@Param("uuid") UUID uuid);
-    
-    UUID uuid(UUID uuid);
 }

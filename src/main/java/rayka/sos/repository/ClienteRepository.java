@@ -12,7 +12,7 @@ import java.util.UUID;
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     // Buscar um cliente específico
     Optional<Cliente> findClienteByUuid(UUID Uuid);
-
+    
     // Buscar todos os clientes do usuário
     List<Cliente> findAllByUsuarioUuid(UUID usuarioUuid);
 }

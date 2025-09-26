@@ -13,19 +13,19 @@ import java.util.UUID;
 public class OrdemServicoService {
     @Autowired
     private OrdemServicoRepository ordemServicoRepository;
-
+    
     public OrdemServico save(OrdemServico os) {
         return ordemServicoRepository.save(os);
     }
-
+    
     public List<OrdemServico> read(UUID usuarioUuid) {
         return ordemServicoRepository.findAllByUsuarioUuid(usuarioUuid);
     }
-
+    
     public Optional<OrdemServico> findByUuid(UUID Uuid) {
         return ordemServicoRepository.findOrdemServicoByUuid(Uuid);
     }
-
+    
     public void delete(long id) {
         ordemServicoRepository.deleteById(id);
     }

@@ -12,7 +12,7 @@ import java.util.UUID;
 public interface OrdemServicoRepository extends JpaRepository<OrdemServico, Long> {
     // Busca uma ordem de serviço do usuário
     Optional<OrdemServico> findOrdemServicoByUuid(UUID Uuid);
-
+    
     // Buscar todas as ordens de serviço do usuário
     List<OrdemServico> findAllByUsuarioUuid(UUID usuarioUuid);
 }

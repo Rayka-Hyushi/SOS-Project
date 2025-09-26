@@ -22,23 +22,23 @@ public class Servico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long sid;
-
+    
     @UuidGenerator
     private UUID uuid;
-
+    
     @Column(nullable = false, length = 50)
     private String service;
-
+    
     @Column(nullable = false, length = 100)
     private String description;
-
+    
     @Column(nullable = false, precision = 5, scale = 2)
     private BigDecimal value;
-
+    
     @ManyToOne
     @JoinColumn(nullable = false, name = "u_id")
     private Usuario usuario;
-
+    
     @ManyToMany(mappedBy = "servicos")
     private Set<OrdemServico> ordens = new HashSet<>();
 }
