@@ -1,5 +1,11 @@
 package rayka.sos.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +21,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/usuarios")
+@Tag(name = "Usuários", description = "Path relacionado a operações de usuários")
 public class UsuarioController {
     private final UsuarioService usuarioService;
     
@@ -23,6 +30,16 @@ public class UsuarioController {
     }
     
     // Endpoint para cadastro
+    @Operation(summary = "Criar Usuário", description = "Cria um novo usuário no banco")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "201", description = "Usuário criado com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = UsuarioDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "400", description = "Dados inválidos fornecidos"
+            )
+    })
     @PostMapping(consumes = {"multipart/form-data"}) // Multipart para permitir envio da foto de perfil
     public ResponseEntity<Usuario> criarUsuario(
             @ModelAttribute UsuarioDTO usuarioDTO, // Modelo de usuario para os campos de texto
@@ -35,7 +52,6 @@ public class UsuarioController {
         }
     }
     
-    
     // Endpoint para login
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
@@ -46,7 +62,7 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("E-mail ou senha incorretos.");
         }
     }
-    
+
     // Endpoint para atualizar
     @PutMapping("/{uuid}")
     public ResponseEntity<Usuario> atualizarUsuario(@PathVariable UUID uuid, @RequestBody UsuarioDTO usuarioUpdate) {
@@ -69,6 +85,14 @@ public class UsuarioController {
     }
     
     // Endpoint para página de perfil
+    @Operation(summary = "Perfil de Usuário", description = "Recupera as informações de um usuário")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "Usuário encontrado",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = UsuarioPerfilDTO.class))
+            ),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
+    })
     @GetMapping("/{uuid}")
     public ResponseEntity<UsuarioPerfilDTO> perfil(@PathVariable UUID uuid) {
         Optional<Usuario> usuario = usuarioService.findUser(uuid);

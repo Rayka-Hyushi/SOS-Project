@@ -1,5 +1,6 @@
 package rayka.sos.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,26 +19,32 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(description = "Entidade que representa um usuário do sistema")
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(name = "ID do Usuário", example = "1")
     private Long uid;
 
     @UuidGenerator
     private UUID uuid;
 
     @Column(nullable = false, length = 100)
+    @Schema(description = "Nome do Usuário", example = "Rayka")
     private String name;
 
     @Column(nullable = false, length = 100)
+    @Schema(description = "E-mail do Usuário", example = "example@gmail.com")
     private String email;
 
     @Column(nullable = false)
+    @Schema(description = "Senha do Usuário", example = "P4ss@241!#")
     private String pass;
     
     @Lob
     @Column(name = "photo")
     @JdbcTypeCode(Types.LONGVARBINARY) // Diz ao Hibernate para usar o tipo binário grande
+    @Schema(description = "Foto de Perfil do Usuário em Bytes")
     private byte[] photo;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)

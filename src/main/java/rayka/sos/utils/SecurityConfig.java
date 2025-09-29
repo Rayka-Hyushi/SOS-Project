@@ -23,14 +23,15 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 // Define as regras de autorização
                 .authorizeHttpRequests(authorize -> authorize
-                    // Permite acesso público ao cadastro de usuário
-                    .requestMatchers("/api/usuarios").permitAll()
-                    // Permite acesso público ao login
-                    .requestMatchers("/api/usuarios/login").permitAll()
-                    // Permite acesso público aos endpoints para usuários logados
-                    .requestMatchers("/api/usuarios/**").authenticated()
-                    // Exige autenticação para todas as outras requisições
-                    .anyRequest().authenticated()
+                                .requestMatchers("/**").permitAll()
+//                    // Permite acesso público ao cadastro de usuário
+//                    .requestMatchers("/api/usuarios").permitAll()
+//                    // Permite acesso público ao login
+//                    .requestMatchers("/api/usuarios/login").permitAll()
+//                    // Permite acesso público aos endpoints para usuários logados
+//                    .requestMatchers("/api/usuarios/**").authenticated()
+//                    // Exige autenticação para todas as outras requisições
+//                    .anyRequest().authenticated()
                 ).httpBasic(Customizer.withDefaults());
         return http.build();
     }
