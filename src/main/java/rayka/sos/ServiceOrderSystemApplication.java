@@ -14,7 +14,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
                 contact = @Contact(name = "Suporte", email = "contato.rayka@outlook.com")
         )
 )
-
 @SpringBootApplication
 public class ServiceOrderSystemApplication {
     

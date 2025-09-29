@@ -15,7 +15,7 @@ public class SecurityConfig {
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -23,7 +23,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 // Define as regras de autorização
                 .authorizeHttpRequests(authorize -> authorize
-                                .requestMatchers("/**").permitAll()
+                                .requestMatchers("/**").permitAll() // Tudo liberado para testes
 //                    // Permite acesso público ao cadastro de usuário
 //                    .requestMatchers("/api/usuarios").permitAll()
 //                    // Permite acesso público ao login

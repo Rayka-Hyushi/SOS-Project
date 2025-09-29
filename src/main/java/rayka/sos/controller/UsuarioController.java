@@ -53,6 +53,18 @@ public class UsuarioController {
     }
     
     // Endpoint para login
+    @Operation(summary = "Login de Usuário", description = "Realiza a validação de login do sistema")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "Usuário logado com sucesso"
+            ),
+            @ApiResponse(
+                    responseCode = "400", description = "E-mail ou senha inválida"
+            ),
+            @ApiResponse(
+                    responseCode = "404", description = "Usuário não encontrado"
+            )
+    })
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
         boolean autenticado = usuarioService.login(loginDTO.getEmail(), loginDTO.getPass());
@@ -64,6 +76,16 @@ public class UsuarioController {
     }
 
     // Endpoint para atualizar
+    @Operation(summary = "Atualizar Perfil de Usuário", description = "Atualiza os dados do usuário")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "Usuário atualizado com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = UsuarioDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "400", description = "Dados inválidos fornecidos"
+            )
+    })
     @PutMapping("/{uuid}")
     public ResponseEntity<Usuario> atualizarUsuario(@PathVariable UUID uuid, @RequestBody UsuarioDTO usuarioUpdate) {
         Optional<Usuario> usuario = usuarioService.update(uuid, usuarioUpdate);
@@ -72,6 +94,16 @@ public class UsuarioController {
     }
     
     // Endpoint para atualizar foto de perfil
+    @Operation(summary = "Atualizar Foto do Usuário", description = "Atualiza a foto de perfil do usuário")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "Foto alterada com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = UsuarioDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404", description = "Usuário não encontrado"
+            )
+    })
     @PatchMapping(value = "/{uuid}/photo", consumes = {"multipart/form-data"})
     public ResponseEntity<Usuario> atualizarFoto(
             @PathVariable UUID uuid,
