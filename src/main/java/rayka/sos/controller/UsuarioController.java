@@ -59,10 +59,7 @@ public class UsuarioController {
                     responseCode = "200", description = "Usuário logado com sucesso"
             ),
             @ApiResponse(
-                    responseCode = "400", description = "E-mail ou senha inválida"
-            ),
-            @ApiResponse(
-                    responseCode = "404", description = "Usuário não encontrado"
+                    responseCode = "401", description = "E-mail ou senha inválida"
             )
     })
     @PostMapping("/login")
@@ -101,7 +98,7 @@ public class UsuarioController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = UsuarioDTO.class))
             ),
             @ApiResponse(
-                    responseCode = "404", description = "Usuário não encontrado"
+                    responseCode = "500", description = "Usuário não encontrado ou erro no servidor"
             )
     })
     @PatchMapping(value = "/{uuid}/photo", consumes = {"multipart/form-data"})
@@ -125,7 +122,7 @@ public class UsuarioController {
             ),
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
     })
-    @GetMapping("/{uuid}")
+    @GetMapping("/{uuid}") // Erro: 406 Not Acceptable
     public ResponseEntity<UsuarioPerfilDTO> perfil(@PathVariable UUID uuid) {
         Optional<Usuario> usuario = usuarioService.findUser(uuid);
         return usuario.map(value -> new ResponseEntity<>(new UsuarioPerfilDTO(value), HttpStatus.OK))

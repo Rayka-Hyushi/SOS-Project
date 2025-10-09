@@ -1,22 +1,11 @@
 package rayka.sos.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class LoginDTO {
     private String email;
     private String pass;
-    
-    public String getEmail() {
-        return email;
-    }
-    
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    
-    public String getPass() {
-        return pass;
-    }
-    
-    public void setPass(String pass) {
-        this.pass = pass;
-    }
 }
