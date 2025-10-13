@@ -20,30 +20,30 @@ public class ServicoController {
     }
     
     @PostMapping
-    public ResponseEntity<Servico> create(@RequestBody Servico servico) {
+    public ResponseEntity<Servico> criarServico(@RequestBody Servico servico) {
         Servico salvo = servicoService.save(servico);
         return ResponseEntity.ok(salvo);
     }
     
     @GetMapping
-    public ResponseEntity<List<Servico>> read(@RequestBody Usuario usuario) {
+    public ResponseEntity<List<Servico>> listarServicos(@RequestBody Usuario usuario) {
         return ResponseEntity.ok(servicoService.read(usuario.getUuid()));
     }
     
     @PutMapping("/{uuid}")
-    public ResponseEntity<Servico> update(@PathVariable UUID uuid, @RequestBody Servico servico) {
+    public ResponseEntity<Servico> atualizarServico(@PathVariable UUID uuid, @RequestBody Servico servico) {
         Servico salvo = servicoService.save(servico);
         return ResponseEntity.ok(salvo);
     }
     
     @GetMapping("/{uuid}")
-    public ResponseEntity<Servico> cliente(@PathVariable UUID uuid) {
+    public ResponseEntity<Servico> buscarServico(@PathVariable UUID uuid) {
         Optional<Servico> servico = servicoService.findByUuid(uuid);
         return servico.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
     
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable long id) {
+    public ResponseEntity<Void> removerServico(@PathVariable long id) {
         servicoService.delete(id);
         return ResponseEntity.noContent().build();
     }

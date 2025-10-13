@@ -122,13 +122,18 @@ public class UsuarioController {
             ),
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
     })
-    @GetMapping("/{uuid}") // Erro: 406 Not Acceptable
+    @GetMapping("/{uuid}")
     public ResponseEntity<UsuarioPerfilDTO> perfil(@PathVariable UUID uuid) {
         Optional<Usuario> usuario = usuarioService.findUser(uuid);
         return usuario.map(value -> new ResponseEntity<>(new UsuarioPerfilDTO(value), HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-    
+
+    @Operation(summary = "Remover Usuário", description = "Remove um usuário através do UUID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuário removido"),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
+    })
     @DeleteMapping("/{uuid}")
     public ResponseEntity<Void> removerUsuario(@PathVariable UUID uuid) {
         usuarioService.delete(uuid);

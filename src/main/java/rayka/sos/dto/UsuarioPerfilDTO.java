@@ -1,10 +1,14 @@
 package rayka.sos.dto;
 
+import lombok.Getter;
+import lombok.Setter;
 import rayka.sos.model.Usuario;
 
 import java.util.Base64;
 import java.util.UUID;
 
+@Getter
+@Setter
 public class UsuarioPerfilDTO {
     private UUID uuid;
     private String name;

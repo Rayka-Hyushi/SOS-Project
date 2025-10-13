@@ -20,30 +20,30 @@ public class ClienteController {
     }
     
     @PostMapping
-    public ResponseEntity<Cliente> create(@RequestBody Cliente cliente) {
+    public ResponseEntity<Cliente> criarCliente(@RequestBody Cliente cliente) {
         Cliente salvo = clienteService.save(cliente);
         return ResponseEntity.ok(salvo);
     }
     
     @GetMapping
-    public ResponseEntity<List<Cliente>> read(@RequestBody Usuario usuario) {
+    public ResponseEntity<List<Cliente>> listarClientes(@RequestBody Usuario usuario) {
         return ResponseEntity.ok(clienteService.read(usuario.getUuid()));
     }
     
     @PutMapping("/{uuid}")
-    public ResponseEntity<Cliente> update(@PathVariable UUID uuid, @RequestBody Cliente cliente) {
+    public ResponseEntity<Cliente> atualizarCliente(@PathVariable UUID uuid, @RequestBody Cliente cliente) {
         Cliente salvo = clienteService.save(cliente);
         return ResponseEntity.ok(salvo);
     }
     
     @GetMapping("/{uuid}")
-    public ResponseEntity<Cliente> cliente(@PathVariable UUID uuid) {
+    public ResponseEntity<Cliente> buscarCliente(@PathVariable UUID uuid) {
         Optional<Cliente> cliente = clienteService.findByUuid(uuid);
         return cliente.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
     
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> removerCliente(@PathVariable Long id) {
         clienteService.delete(id);
         return ResponseEntity.noContent().build();
     }
