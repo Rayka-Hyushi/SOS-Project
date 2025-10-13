@@ -47,6 +47,8 @@ public class Usuario {
     @Schema(description = "Foto de Perfil do Usuário em Bytes")
     private byte[] photo;
 
+    private String permissao;
+
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Cliente> clientes;
 

@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import rayka.sos.dto.LoginDTO;
 import rayka.sos.dto.UsuarioDTO;
 import rayka.sos.dto.UsuarioPerfilDTO;
 import rayka.sos.model.Usuario;
@@ -53,24 +52,24 @@ public class UsuarioController {
     }
     
     // Endpoint para login
-    @Operation(summary = "Login de Usuário", description = "Realiza a validação de login do sistema")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200", description = "Usuário logado com sucesso"
-            ),
-            @ApiResponse(
-                    responseCode = "401", description = "E-mail ou senha inválida"
-            )
-    })
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
-        boolean autenticado = usuarioService.login(loginDTO.getEmail(), loginDTO.getPass());
-        if (autenticado) {
-            return ResponseEntity.ok("Login realizado!");
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("E-mail ou senha incorretos.");
-        }
-    }
+//    @Operation(summary = "Login de Usuário", description = "Realiza a validação de login do sistema")
+//    @ApiResponses(value = {
+//            @ApiResponse(
+//                    responseCode = "200", description = "Usuário logado com sucesso"
+//            ),
+//            @ApiResponse(
+//                    responseCode = "401", description = "E-mail ou senha inválida"
+//            )
+//    })
+//    @PostMapping("/login")
+//    public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
+//        boolean autenticado = usuarioService.login(loginDTO.getEmail(), loginDTO.getPass());
+//        if (autenticado) {
+//            return ResponseEntity.ok("Login realizado!");
+//        } else {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("E-mail ou senha incorretos.");
+//        }
+//    }
 
     // Endpoint para atualizar
     @Operation(summary = "Atualizar Perfil de Usuário", description = "Atualiza os dados do usuário")
