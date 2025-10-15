@@ -9,21 +9,23 @@ import org.springframework.stereotype.Service;
 import rayka.sos.model.Usuario;
 import rayka.sos.repository.UsuarioRepository;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class AutenticacaoService implements UserDetailsService {
     private final UsuarioRepository repository;
 
     @Override
-    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        Usuario usuario = repository.findByLogin(login);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Optional<Usuario> usuario = repository.findByEmail(email);
 
-        if (usuario == null) {
+        if (usuario.isEmpty()) {
             throw new UsernameNotFoundException("Usario nao encontrado");
         } else {
-            UserDetails user = User.withUsername(usuario.getEmail())
-                    .password(usuario.getPass())
-                    .authorities(usuario.getPermissao())
+            UserDetails user = User.withUsername(usuario.get().getEmail())
+                    .password(usuario.get().getPass())
+                    .authorities(usuario.get().getPermissao())
                     .build();
 
             return user;

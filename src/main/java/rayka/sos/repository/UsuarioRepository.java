@@ -16,6 +16,4 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     
     // Busca um usuário por uuid
     Optional<Usuario> findByUuid(UUID uuid);
-
-    public Usuario findByLogin(String login);
 }

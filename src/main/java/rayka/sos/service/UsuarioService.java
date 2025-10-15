@@ -12,57 +12,33 @@ import rayka.sos.model.Usuario;
 import rayka.sos.repository.UsuarioRepository;
 
 import java.io.IOException;
-import java.util.Base64;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class UsuarioService implements UserDetailsService {
-    
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Usuario usuario = usuarioRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado: " + email));
-
-        // Você precisa mapear sua entidade Usuario para o UserDetails do Spring Security.
-        // Se você não tem uma classe de mapeamento, use a classe User (do Spring Security)
-        // para encapsular as credenciais e as roles (por enquanto, apenas uma lista vazia de roles).
-
-        // Você precisa de um método findByEmail no seu UsuarioRepository.
-
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(usuario.getEmail())
-                .password(usuario.getPass()) // A senha DEVE ser a que está criptografada no banco
-                .roles("USER") // Defina uma role simples por enquanto.
-                .build();
-    }
-    
+public class UsuarioService {
     @Autowired
     private final UsuarioRepository usuarioRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
     
     @Autowired
-    public UsuarioService(UsuarioRepository usuarioRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UsuarioService(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-    
-    public boolean login(String email, String password) {
-        return usuarioRepository.findByEmail(email).map(usuario -> passwordEncoder.matches(password, usuario.getPass())).orElse(false);
     }
     
     public Usuario create(UsuarioDTO usuarioDTO, MultipartFile photo) throws IOException {
         Usuario usuario = new Usuario();
         
         // Criptografia da senha e adição dos campos
-        usuario.setPass(passwordEncoder.encode(usuarioDTO.getPass()));
+        usuario.setPass(new BCryptPasswordEncoder().encode(usuarioDTO.getPass()));
         usuario.setName(usuarioDTO.getName());
         usuario.setEmail(usuarioDTO.getEmail());
+        usuario.setPermissao(usuarioDTO.getPermissao());
         
         // Conversão da foto para bytes
         if (photo != null && !photo.isEmpty()) {
             usuario.setPhoto(photo.getBytes());
-            System.out.println(usuario.getPhoto());
+            System.out.println(Arrays.toString(usuario.getPhoto()));
         }
         
         // Salva o novo usuário
@@ -79,7 +55,7 @@ public class UsuarioService implements UserDetailsService {
             usuario.setEmail(usuarioUpdate.getEmail());
             
             if (usuarioUpdate.getPass() != null && !usuarioUpdate.getPass().isEmpty()) {
-                String passwordCoded = passwordEncoder.encode(usuarioUpdate.getPass());
+                String passwordCoded = new BCryptPasswordEncoder().encode(usuarioUpdate.getPass());
                 usuario.setPass(passwordCoded);
             }
             

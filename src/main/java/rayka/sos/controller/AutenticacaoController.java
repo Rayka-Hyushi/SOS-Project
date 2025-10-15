@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import rayka.sos.dto.DadosAutenticacao;
-import rayka.sos.service.TokenServiceJWT;
+import rayka.sos.security.TokenServiceJWT;
 
 @RestController
 @RequestMapping("/login")
@@ -29,11 +28,13 @@ public class AutenticacaoController {
             User user = (User) at.getPrincipal();
             String token = tokenService.gerarToken(user);
 
-            return ResponseEntity.ok().body(token);
+            return ResponseEntity.ok().body(new DadosTokenJWT(token));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
+    private record DadosTokenJWT(String token) {}
+    private record DadosAutenticacao(String login, String senha) {}
 }
