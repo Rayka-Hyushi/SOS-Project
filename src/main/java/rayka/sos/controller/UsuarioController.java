@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import rayka.sos.dto.DadosAutenticacao;
 import rayka.sos.dto.UsuarioDTO;
 import rayka.sos.dto.UsuarioPerfilDTO;
 import rayka.sos.model.Usuario;
@@ -62,7 +63,7 @@ public class UsuarioController {
 //            )
 //    })
 //    @PostMapping("/login")
-//    public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
+//    public ResponseEntity<String> login(@RequestBody DadosAutenticacao dados) {
 //        boolean autenticado = usuarioService.login(loginDTO.getEmail(), loginDTO.getPass());
 //        if (autenticado) {
 //            return ResponseEntity.ok("Login realizado!");

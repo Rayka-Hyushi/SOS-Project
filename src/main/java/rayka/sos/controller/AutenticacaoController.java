@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import rayka.sos.security.TokenServiceJWT;
 
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/api/login")
 @AllArgsConstructor
 public class AutenticacaoController {
     private final AuthenticationManager manager;
