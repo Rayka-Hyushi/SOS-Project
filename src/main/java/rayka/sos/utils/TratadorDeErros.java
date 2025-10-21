@@ -1,5 +1,6 @@
 package rayka.sos.utils;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -23,6 +24,13 @@ public class TratadorDeErros {
         return ResponseEntity.badRequest().body(dados);
     }
 
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity tratarErroViolacaoIntegridade(DataIntegrityViolationException ex) {
+        System.err.println("Erro de Integridade de Dados no Banco: " + ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("Erro de integridade de dados. Verifique o tamanho dos campos (email).");
+    }
+
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity tratarErro404() {
         return ResponseEntity.notFound().build();
@@ -30,7 +38,13 @@ public class TratadorDeErros {
 
     @ExceptionHandler
     public ResponseEntity tratarErro500(Exception ex) {
-        System.out.println("Erro interno no servidor: " + ex.getMessage());
+        System.out.println("Erro interno no servidor: Tipo: " + ex.getClass().getName());
+        System.out.println("Erro interno no servidor: Mensagem: " + ex.getMessage());
+
+        if (ex.getCause() != null) {
+            System.out.println("Causa raiz: Tipo: " + ex.getCause().getClass().getName());
+            System.out.println("Causa raiz: Mensagem: " + ex.getCause().getMessage());
+        }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
