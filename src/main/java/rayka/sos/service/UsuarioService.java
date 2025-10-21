@@ -27,7 +27,7 @@ public class UsuarioService {
     }
 
     // Operação de create
-    public Usuario create(UsuarioDTO usuarioDTO, MultipartFile photo) throws IOException {
+    public Usuario create(UsuarioDTO usuarioDTO, MultipartFile photo) {
         Usuario usuario = new Usuario();
         
         // Criptografia da senha e adição dos campos
@@ -37,21 +37,16 @@ public class UsuarioService {
         
         // Conversão da foto para bytes
         if (photo != null && !photo.isEmpty()) {
-            usuario.setPhoto(photo.getBytes());
-            System.out.println(Arrays.toString(usuario.getPhoto()));
+            try {
+                usuario.setPhoto(photo.getBytes());
+                System.out.println(Arrays.toString(usuario.getPhoto()));
+            } catch (IOException e) {
+                throw new RuntimeException("Erro ao processar a imagem enviada. " + e);
+            }
         }
         
         // Salva o novo usuário
         return usuarioRepository.save(usuario);
-    }
-    
-    public Optional<Usuario> findUser(UUID uuid) {
-        return usuarioRepository.findByUuid(uuid);
-    }
-
-    public UUID findUuidByEmail(String email) {
-        return usuarioRepository.findUuidByEmail(email).orElseThrow(() ->
-                new UsernameNotFoundException("UUID do usuário logado não encontrado para o e-mail: " + email));
     }
     
     public Optional<Usuario> update(UUID uuid, UsuarioDTO usuarioUpdate) {
@@ -68,12 +63,16 @@ public class UsuarioService {
         });
     }
     
-    public Usuario updatePhoto(UUID uuid, MultipartFile photo) throws IOException {
+    public Usuario updatePhoto(UUID uuid, MultipartFile photo) {
         Usuario usuario = usuarioRepository.findByUuid(uuid)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
         
         if (photo != null && !photo.isEmpty()) {
-            usuario.setPhoto(photo.getBytes());
+            try {
+                usuario.setPhoto(photo.getBytes());
+            } catch (IOException e) {
+                throw new RuntimeException("Erro ao processar a imagem enviada. " + e);
+            }
         }
         
         return usuarioRepository.save(usuario);

@@ -31,7 +31,6 @@ public class AutenticacaoController {
 
             return ResponseEntity.ok().body(new DadosTokenJWT(token));
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

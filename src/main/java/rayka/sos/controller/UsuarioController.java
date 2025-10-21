@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.xml.bind.ValidationException;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,7 +24,7 @@ import java.util.Optional;
 @Tag(name = "Usuários", description = "Path relacionado a operações de usuários")
 public class UsuarioController {
     private final UsuarioService usuarioService;
-    
+
     public UsuarioController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
     }
@@ -42,16 +42,10 @@ public class UsuarioController {
     })
     @PostMapping(consumes = {"multipart/form-data"}) // Multipart para permitir envio da foto de perfil
     public ResponseEntity<Usuario> criarUsuario(
-            @ModelAttribute UsuarioDTO usuarioDTO, // Modelo de usuario para os campos de texto
+            @ModelAttribute @Valid UsuarioDTO usuarioDTO, // Modelo de usuario para os campos de texto
             @RequestParam("photo") MultipartFile photo) {
-        try {
-            Usuario salvo = usuarioService.create(usuarioDTO, photo);
-            return new ResponseEntity<>(salvo, HttpStatus.CREATED);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        } catch (Exception E) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        Usuario salvo = usuarioService.create(usuarioDTO, photo);
+        return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
     }
 
     @Operation(summary = "Perfil de Usuário", description = "Recupera as informações do usuário logado")
@@ -74,11 +68,9 @@ public class UsuarioController {
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
     })
     @PutMapping
-    public ResponseEntity<UsuarioPerfilDTO> atualizarUsuario(@RequestBody UsuarioDTO usuarioUpdate) {
-        Optional<Usuario> usuario = usuarioService.update(getUsuarioLogado().getUuid(), usuarioUpdate);
-
-        return usuario.map(value -> new ResponseEntity<>(new UsuarioPerfilDTO(value), HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<UsuarioPerfilDTO> atualizarUsuario(@RequestBody @Valid UsuarioDTO usuarioUpdate) {
+        Usuario usuario = usuarioService.update(getUsuarioLogado().getUuid(), usuarioUpdate).orElseThrow();
+        return ResponseEntity.status(HttpStatus.OK).body(new UsuarioPerfilDTO(usuario));
     }
 
     @Operation(summary = "Atualizar Foto do Usuário", description = "Atualiza a foto de perfil do usuário")
@@ -89,12 +81,8 @@ public class UsuarioController {
     })
     @PatchMapping(value = "/foto", consumes = {"multipart/form-data"})
     public ResponseEntity<UsuarioPerfilDTO> atualizarFoto(@RequestParam(value = "photo", required = false) MultipartFile photo) {
-        try {
-            Usuario atualizado = usuarioService.updatePhoto(getUsuarioLogado().getUuid(), photo);
-            return new ResponseEntity<>(new UsuarioPerfilDTO(atualizado), HttpStatus.OK);
-        } catch (Exception E) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        Usuario atualizado = usuarioService.updatePhoto(getUsuarioLogado().getUuid(), photo);
+        return new ResponseEntity<>(new UsuarioPerfilDTO(atualizado), HttpStatus.OK);
     }
 
     @Operation(summary = "Remover Usuário", description = "Remove um usuário através do UUID")
