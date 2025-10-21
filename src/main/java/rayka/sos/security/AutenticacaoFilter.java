@@ -10,9 +10,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import rayka.sos.model.Usuario;
 import rayka.sos.service.AutenticacaoService;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Component
 @AllArgsConstructor

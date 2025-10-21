@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import rayka.sos.model.Usuario;
 import rayka.sos.security.TokenServiceJWT;
 
 @RestController
@@ -25,8 +26,8 @@ public class AutenticacaoController {
             UsernamePasswordAuthenticationToken autenticado = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
             Authentication at = manager.authenticate(autenticado);
 
-            User user = (User) at.getPrincipal();
-            String token = tokenService.gerarToken(user);
+            Usuario usuario = (Usuario) at.getPrincipal();
+            String token = tokenService.gerarToken(usuario);
 
             return ResponseEntity.ok().body(new DadosTokenJWT(token));
         } catch (Exception e) {

@@ -25,7 +25,8 @@ public class UsuarioService {
     public UsuarioService(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
-    
+
+    // Operação de create
     public Usuario create(UsuarioDTO usuarioDTO, MultipartFile photo) throws IOException {
         Usuario usuario = new Usuario();
         
@@ -33,7 +34,6 @@ public class UsuarioService {
         usuario.setPass(new BCryptPasswordEncoder().encode(usuarioDTO.getPass()));
         usuario.setName(usuarioDTO.getName());
         usuario.setEmail(usuarioDTO.getEmail());
-        usuario.setPermissao(usuarioDTO.getPermissao());
         
         // Conversão da foto para bytes
         if (photo != null && !photo.isEmpty()) {
@@ -47,6 +47,11 @@ public class UsuarioService {
     
     public Optional<Usuario> findUser(UUID uuid) {
         return usuarioRepository.findByUuid(uuid);
+    }
+
+    public UUID findUuidByEmail(String email) {
+        return usuarioRepository.findUuidByEmail(email).orElseThrow(() ->
+                new UsernameNotFoundException("UUID do usuário logado não encontrado para o e-mail: " + email));
     }
     
     public Optional<Usuario> update(UUID uuid, UsuarioDTO usuarioUpdate) {

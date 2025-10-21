@@ -1,1 +1,0 @@
-alter table usuario add column permissao varchar(10);
