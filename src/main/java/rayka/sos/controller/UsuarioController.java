@@ -33,9 +33,9 @@ public class UsuarioController {
         return (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    @Operation(summary = "Criar Usuário", description = "Cria um novo usuário no banco")
+    @Operation(summary = "Cadastrar Usuário", description = "Cria um novo usuário no banco.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Usuário criado com sucesso",
+            @ApiResponse(responseCode = "201", description = "Usuário cadastrado com sucesso",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))),
             @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos"),
             @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
@@ -48,7 +48,7 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
     }
 
-    @Operation(summary = "Perfil de Usuário", description = "Recupera as informações do usuário logado")
+    @Operation(summary = "Perfil de Usuário", description = "Retorna o perfil do usuário logado.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuário encontrado",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = UsuarioPerfilDTO.class))),
@@ -60,7 +60,7 @@ public class UsuarioController {
         return new ResponseEntity<>(new UsuarioPerfilDTO(usuario), HttpStatus.OK);
     }
 
-    @Operation(summary = "Atualizar Perfil de Usuário", description = "Atualiza os dados do usuário")
+    @Operation(summary = "Atualizar Perfil de Usuário", description = "Atualiza os dados do usuário.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuário atualizado com sucesso",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = UsuarioPerfilDTO.class))),
@@ -73,7 +73,7 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.OK).body(new UsuarioPerfilDTO(usuario));
     }
 
-    @Operation(summary = "Atualizar Foto do Usuário", description = "Atualiza a foto de perfil do usuário")
+    @Operation(summary = "Atualizar Foto do Usuário", description = "Atualiza a foto de perfil do usuário.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Foto alterada com sucesso",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = UsuarioPerfilDTO.class))),
@@ -85,7 +85,7 @@ public class UsuarioController {
         return new ResponseEntity<>(new UsuarioPerfilDTO(atualizado), HttpStatus.OK);
     }
 
-    @Operation(summary = "Remover Usuário", description = "Remove um usuário através do UUID")
+    @Operation(summary = "Remover Usuário", description = "Remove a conta do usuário logado.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuário removido"),
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado")

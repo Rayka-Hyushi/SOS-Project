@@ -28,7 +28,13 @@ public class TratadorDeErros {
     public ResponseEntity tratarErroViolacaoIntegridade(DataIntegrityViolationException ex) {
         System.err.println("Erro de Integridade de Dados no Banco: " + ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body("Erro de integridade de dados. Verifique o tamanho dos campos (email).");
+                .body("Erro de integridade de dados. Verifique o tamanho dos dados informados.");
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity tratarErro403(RuntimeException ex) {
+        System.out.println("Erro de autenticação: " + ex.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
     @ExceptionHandler(NoSuchElementException.class)
