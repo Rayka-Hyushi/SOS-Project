@@ -5,9 +5,7 @@ import org.springframework.stereotype.Repository;
 import rayka.sos.model.Servico;
 import rayka.sos.model.Usuario;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 public interface ServicoRepository extends JpaRepository<Servico, Long> {
@@ -16,4 +14,7 @@ public interface ServicoRepository extends JpaRepository<Servico, Long> {
 
     // Buscar um serviço específico
     Optional<Servico> findByUuidAndUsuario(UUID Uuid, Usuario usuario);
+
+    // Buscar todos os serviços cujos UUIDs estão na coleção fornecida
+    Set<Servico> findByUuidIn(Collection<UUID> uuids);
 }

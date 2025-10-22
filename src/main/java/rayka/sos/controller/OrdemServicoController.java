@@ -11,37 +11,37 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/ordens")
+@RequestMapping("/api/ordens")
 public class OrdemServicoController {
     private final OrdemServicoService ordemServicoService;
-    
+
     public OrdemServicoController(OrdemServicoService ordemServicoService) {
         this.ordemServicoService = ordemServicoService;
     }
-    
+
     @PostMapping
     public ResponseEntity<OrdemServico> criarOrdem(@RequestBody OrdemServico ordemServico) {
         OrdemServico salvo = ordemServicoService.save(ordemServico);
         return ResponseEntity.ok(salvo);
     }
-    
+
     @GetMapping
     public ResponseEntity<List<OrdemServico>> listarOrdens(@RequestBody Usuario usuario) {
         return ResponseEntity.ok(ordemServicoService.read(usuario.getUuid()));
     }
-    
+
     @PutMapping("/{uuid}")
     public ResponseEntity<OrdemServico> atualizarOrdem(@PathVariable UUID uuid, @RequestBody OrdemServico ordemServico) {
         OrdemServico salvo = ordemServicoService.save(ordemServico);
         return ResponseEntity.ok(salvo);
     }
-    
+
     @GetMapping("/{uuid}")
     public ResponseEntity<OrdemServico> buscarOrdem(@PathVariable UUID uuid) {
         Optional<OrdemServico> ordemServico = ordemServicoService.findByUuid(uuid);
         return ordemServico.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
-    
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> removerOrdem(@PathVariable Long id) {
         ordemServicoService.delete(id);
