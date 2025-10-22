@@ -1,7 +1,9 @@
 package rayka.sos.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import rayka.sos.dto.OrdemServicoRequestDTO;
 import rayka.sos.model.OrdemServico;
 import rayka.sos.model.Usuario;
 import rayka.sos.service.OrdemServicoService;
@@ -19,32 +21,36 @@ public class OrdemServicoController {
         this.ordemServicoService = ordemServicoService;
     }
 
+    private Usuario getUsuarioLogado() {
+        return (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
     @PostMapping
-    public ResponseEntity<OrdemServico> criarOrdem(@RequestBody OrdemServico ordemServico) {
-        OrdemServico salvo = ordemServicoService.save(ordemServico);
+    public ResponseEntity<OrdemServico> criarOrdem(@RequestBody OrdemServicoRequestDTO osrDTO) {
+        OrdemServico salvo = ordemServicoService.create(osrDTO, getUsuarioLogado());
         return ResponseEntity.ok(salvo);
     }
 
     @GetMapping
-    public ResponseEntity<List<OrdemServico>> listarOrdens(@RequestBody Usuario usuario) {
-        return ResponseEntity.ok(ordemServicoService.read(usuario.getUuid()));
-    }
-
-    @PutMapping("/{uuid}")
-    public ResponseEntity<OrdemServico> atualizarOrdem(@PathVariable UUID uuid, @RequestBody OrdemServico ordemServico) {
-        OrdemServico salvo = ordemServicoService.save(ordemServico);
-        return ResponseEntity.ok(salvo);
+    public ResponseEntity<List<OrdemServico>> listarOrdens() {
+        return ResponseEntity.ok(ordemServicoService.readAll(getUsuarioLogado()));
     }
 
     @GetMapping("/{uuid}")
     public ResponseEntity<OrdemServico> buscarOrdem(@PathVariable UUID uuid) {
-        Optional<OrdemServico> ordemServico = ordemServicoService.findByUuid(uuid);
+        Optional<OrdemServico> ordemServico = ordemServicoService.readOne(uuid, getUsuarioLogado());
         return ordemServico.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> removerOrdem(@PathVariable Long id) {
-        ordemServicoService.delete(id);
-        return ResponseEntity.noContent().build();
+    @PutMapping("/{uuid}")
+    public ResponseEntity<OrdemServico> atualizarOrdem(@PathVariable UUID uuid, @RequestBody OrdemServicoRequestDTO osrUpdate) {
+        Optional<OrdemServico> salvo = ordemServicoService.update(uuid, osrUpdate, getUsuarioLogado());
+        return salvo.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{uuid}")
+    public ResponseEntity<Void> removerOrdem(@PathVariable UUID uuid) {
+        boolean deletado = ordemServicoService.delete(uuid, getUsuarioLogado());
+        return deletado ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }
