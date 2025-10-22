@@ -1,6 +1,7 @@
 package rayka.sos.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import rayka.sos.model.Servico;
 import rayka.sos.model.Usuario;
@@ -11,40 +12,44 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/servicos")
+@RequestMapping("/api/servicos")
 public class ServicoController {
     private final ServicoService servicoService;
-    
+
     public ServicoController(ServicoService servicoService) {
         this.servicoService = servicoService;
     }
-    
+
+    private Usuario getUsuarioLogado() {
+        return (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
     @PostMapping
     public ResponseEntity<Servico> criarServico(@RequestBody Servico servico) {
-        Servico salvo = servicoService.save(servico);
+        Servico salvo = servicoService.create(servico, getUsuarioLogado());
         return ResponseEntity.ok(salvo);
     }
-    
+
     @GetMapping
-    public ResponseEntity<List<Servico>> listarServicos(@RequestBody Usuario usuario) {
-        return ResponseEntity.ok(servicoService.read(usuario.getUuid()));
+    public ResponseEntity<List<Servico>> listarServicos() {
+        return ResponseEntity.ok(servicoService.readAll(getUsuarioLogado()));
     }
-    
-    @PutMapping("/{uuid}")
-    public ResponseEntity<Servico> atualizarServico(@PathVariable UUID uuid, @RequestBody Servico servico) {
-        Servico salvo = servicoService.save(servico);
-        return ResponseEntity.ok(salvo);
-    }
-    
+
     @GetMapping("/{uuid}")
     public ResponseEntity<Servico> buscarServico(@PathVariable UUID uuid) {
-        Optional<Servico> servico = servicoService.findByUuid(uuid);
+        Optional<Servico> servico = servicoService.readOne(uuid, getUsuarioLogado());
         return servico.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
-    
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> removerServico(@PathVariable long id) {
-        servicoService.delete(id);
-        return ResponseEntity.noContent().build();
+
+    @PutMapping("/{uuid}")
+    public ResponseEntity<Servico> atualizarServico(@PathVariable UUID uuid, @RequestBody Servico servico) {
+        Optional<Servico> salvo = servicoService.update(uuid, servico, getUsuarioLogado());
+        return salvo.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{uuid}")
+    public ResponseEntity<Void> removerServico(@PathVariable UUID uuid) {
+        boolean deletado = servicoService.delete(uuid, getUsuarioLogado());
+        return deletado ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }

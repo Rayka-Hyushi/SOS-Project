@@ -38,8 +38,7 @@ public class ClienteController {
     })
     @PostMapping
     public ResponseEntity<Cliente> criarCliente(@RequestBody Cliente cliente) {
-        Usuario usuario = getUsuarioLogado();
-        Cliente salvo = clienteService.create(cliente, usuario);
+        Cliente salvo = clienteService.create(cliente, getUsuarioLogado());
         return ResponseEntity.ok(salvo);
     }
 
@@ -52,8 +51,7 @@ public class ClienteController {
     })
     @GetMapping
     public ResponseEntity<List<Cliente>> listarClientes() {
-        Usuario usuario = getUsuarioLogado();
-        return ResponseEntity.ok(clienteService.readAll(usuario));
+        return ResponseEntity.ok(clienteService.readAll(getUsuarioLogado()));
     }
 
     @Operation(summary = "Buscar Cliente", description = "Retorna o perfil de um cliente específico pelo UUID.")
@@ -65,8 +63,7 @@ public class ClienteController {
     })
     @GetMapping("/{uuid}")
     public ResponseEntity<Cliente> buscarCliente(@PathVariable UUID uuid) {
-        Usuario usuario = getUsuarioLogado();
-        Optional<Cliente> cliente = clienteService.readOne(uuid, usuario);
+        Optional<Cliente> cliente = clienteService.readOne(uuid, getUsuarioLogado());
         return cliente.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
@@ -79,8 +76,7 @@ public class ClienteController {
     })
     @PutMapping("/{uuid}")
     public ResponseEntity<Cliente> atualizarCliente(@PathVariable UUID uuid, @RequestBody Cliente cliente) {
-        Usuario usuario = getUsuarioLogado();
-        Optional<Cliente> salvo = clienteService.update(uuid, cliente, usuario);
+        Optional<Cliente> salvo = clienteService.update(uuid, cliente, getUsuarioLogado());
         return salvo.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
@@ -93,8 +89,7 @@ public class ClienteController {
     })
     @DeleteMapping("/{uuid}")
     public ResponseEntity<Void> removerCliente(@PathVariable UUID uuid) {
-        Usuario usuario = getUsuarioLogado();
-        boolean deletado = clienteService.delete(uuid, usuario);
+        boolean deletado = clienteService.delete(uuid, getUsuarioLogado());
         return deletado ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }
