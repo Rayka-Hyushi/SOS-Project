@@ -17,8 +17,6 @@ import rayka.sos.dto.UsuarioPerfilDTO;
 import rayka.sos.model.Usuario;
 import rayka.sos.service.UsuarioService;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/api/usuarios")
 @Tag(name = "Usuários", description = "Path relacionado a operações de usuários")

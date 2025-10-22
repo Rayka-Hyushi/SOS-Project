@@ -10,11 +10,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import rayka.sos.model.Usuario;
 import rayka.sos.service.AutenticacaoService;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @Component
 @AllArgsConstructor
@@ -47,7 +45,7 @@ public class AutenticacaoFilter extends OncePerRequestFilter {
     private String recuperarToken(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
         if (token != null) {
-            return token.replace("Bearer","").trim();
+            return token.replace("Bearer", "").trim();
         }
         return null;
     }

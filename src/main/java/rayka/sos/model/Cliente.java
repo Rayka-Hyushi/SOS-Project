@@ -22,26 +22,26 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(name = "ID do Cliente", example = "1")
     private Long cid;
-    
+
     @UuidGenerator
     private UUID uuid;
-    
+
     @Column(nullable = false, length = 100)
     @Schema(description = "Nome do Usuário", example = "Lys")
     private String name;
-    
+
     @Column(nullable = false, length = 15)
     @Schema(description = "Número de Telefone do Cliente", example = "(55) 95555-5555")
     private String phone;
-    
+
     @Column(nullable = false, length = 100)
     @Schema(description = "E-mail de Contato do Cliente", example = "example@gmail.com")
     private String email;
-    
+
     @Column(nullable = false, length = 100)
     @Schema(description = "Endereço do Cliente", example = "Rua Um, Bairro, Cidade")
     private String address;
-    
+
     @ManyToOne
     @JoinColumn(nullable = false, name = "u_id")
     private Usuario usuario;

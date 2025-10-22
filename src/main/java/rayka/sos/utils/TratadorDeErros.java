@@ -54,5 +54,6 @@ public class TratadorDeErros {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
-    private record DadosErroValidacao(String campo, String mensagem) {}
+    private record DadosErroValidacao(String campo, String mensagem) {
+    }
 }

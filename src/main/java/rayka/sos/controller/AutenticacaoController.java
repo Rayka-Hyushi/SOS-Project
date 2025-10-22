@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +34,9 @@ public class AutenticacaoController {
         }
     }
 
-    private record DadosTokenJWT(String token) {}
-    private record DadosAutenticacao(String login, String senha) {}
+    private record DadosTokenJWT(String token) {
+    }
+
+    private record DadosAutenticacao(String login, String senha) {
+    }
 }

@@ -7,8 +7,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import rayka.sos.repository.UsuarioRepository;
 
-import java.util.UUID;
-
 @Service
 @AllArgsConstructor
 public class AutenticacaoService implements UserDetailsService {

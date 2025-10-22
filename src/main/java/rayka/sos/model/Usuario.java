@@ -13,7 +13,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Types;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -45,7 +44,7 @@ public class Usuario implements UserDetails {
     @Column(nullable = false)
     @Schema(description = "Senha do Usuário", example = "P4ss@241!#")
     private String pass;
-    
+
     @Lob
     @Column(name = "photo")
     @JdbcTypeCode(Types.LONGVARBINARY) // Diz ao Hibernate para usar o tipo binário grande
