@@ -16,8 +16,4 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     
     // Busca um usuário por uuid
     Optional<Usuario> findByUuid(UUID uuid);
-
-    // Retorna o UUID do usuário através do e-mail
-    @Query("select u.uuid from Usuario u where u.email = :email")
-    Optional<UUID> findUuidByEmail(@Param("email") String email);
 }
