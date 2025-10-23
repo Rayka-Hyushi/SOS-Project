@@ -1,18 +1,25 @@
 package rayka.sos.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
-import lombok.Setter;
 import rayka.sos.model.Usuario;
 
 import java.util.Base64;
 import java.util.UUID;
 
 @Getter
-@Setter
+@Schema(description = "DTO de Resposta para o Perfil do Usuário (Dados de exibição)")
 public class UsuarioPerfilDTO {
+    @Schema(description = "UUID único do usuário", example = "5d7caeb2-56ed-4cd5-a1ac-22cd608f4157")
     private UUID uuid;
+
+    @Schema(description = "Nome completo do usuário", example = "Rayka Hyushi")
     private String name;
+
+    @Schema(description = "E-mail de login do usuário", example = "admin@admin.com")
     private String email;
+
+    @Schema(description = "Foto de perfil do usuário codificada em Base64. Pode ser nula.", example = "iVBORw0KAAAhEUgA...")
     private String photo;
 
     public UsuarioPerfilDTO(Usuario usuario) {

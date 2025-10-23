@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import rayka.sos.dto.UsuarioDTO;
+import rayka.sos.dto.UsuarioRequestDTO;
 import rayka.sos.model.Usuario;
 import rayka.sos.repository.UsuarioRepository;
 
@@ -24,13 +24,13 @@ public class UsuarioService {
     }
 
     // Operação de create
-    public Usuario create(UsuarioDTO usuarioDTO, MultipartFile photo) {
+    public Usuario create(UsuarioRequestDTO usuarioRequestDTO, MultipartFile photo) {
         Usuario usuario = new Usuario();
 
         // Criptografia da senha e adição dos campos
-        usuario.setPass(new BCryptPasswordEncoder().encode(usuarioDTO.getPass()));
-        usuario.setName(usuarioDTO.getName());
-        usuario.setEmail(usuarioDTO.getEmail());
+        usuario.setPass(new BCryptPasswordEncoder().encode(usuarioRequestDTO.getPass()));
+        usuario.setName(usuarioRequestDTO.getName());
+        usuario.setEmail(usuarioRequestDTO.getEmail());
 
         // Conversão da foto para bytes
         if (photo != null && !photo.isEmpty()) {
@@ -46,7 +46,7 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
-    public Optional<Usuario> update(UUID uuid, UsuarioDTO usuarioUpdate) {
+    public Optional<Usuario> update(UUID uuid, UsuarioRequestDTO usuarioUpdate) {
         return usuarioRepository.findByUuid(uuid).map(usuario -> {
             usuario.setName(usuarioUpdate.getName());
             usuario.setEmail(usuarioUpdate.getEmail());

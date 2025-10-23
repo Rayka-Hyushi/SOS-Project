@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import rayka.sos.dto.UsuarioDTO;
+import rayka.sos.dto.UsuarioRequestDTO;
 import rayka.sos.dto.UsuarioPerfilDTO;
 import rayka.sos.model.Usuario;
 import rayka.sos.service.UsuarioService;
@@ -40,9 +40,9 @@ public class UsuarioController {
     })
     @PostMapping(consumes = {"multipart/form-data"}) // Multipart para permitir envio da foto de perfil
     public ResponseEntity<Usuario> criarUsuario(
-            @ModelAttribute @Valid UsuarioDTO usuarioDTO, // Modelo de usuario para os campos de texto
+            @ModelAttribute @Valid UsuarioRequestDTO usuarioRequestDTO, // Modelo de usuario para os campos de texto
             @RequestParam("photo") MultipartFile photo) {
-        Usuario salvo = usuarioService.create(usuarioDTO, photo);
+        Usuario salvo = usuarioService.create(usuarioRequestDTO, photo);
         return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
     }
 
@@ -66,7 +66,7 @@ public class UsuarioController {
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
     })
     @PutMapping
-    public ResponseEntity<UsuarioPerfilDTO> atualizarUsuario(@RequestBody @Valid UsuarioDTO usuarioUpdate) {
+    public ResponseEntity<UsuarioPerfilDTO> atualizarUsuario(@RequestBody @Valid UsuarioRequestDTO usuarioUpdate) {
         Usuario usuario = usuarioService.update(getUsuarioLogado().getUuid(), usuarioUpdate).orElseThrow();
         return ResponseEntity.status(HttpStatus.OK).body(new UsuarioPerfilDTO(usuario));
     }
