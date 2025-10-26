@@ -2,7 +2,7 @@ create table usuario (
     uid serial not null primary key,
     uuid UUID default gen_random_uuid(),
     name varchar(100) not null,
-    email varchar(100) not null,
+    email varchar(100) not null unique,
     pass varchar(255) not null,
     photo bytea
 );

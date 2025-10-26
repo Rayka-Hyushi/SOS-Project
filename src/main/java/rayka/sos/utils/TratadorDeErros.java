@@ -28,7 +28,7 @@ public class TratadorDeErros {
     public ResponseEntity tratarErroViolacaoIntegridade(DataIntegrityViolationException ex) {
         System.err.println("Erro de Integridade de Dados no Banco: " + ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body("Erro de integridade de dados. Verifique o tamanho dos dados informados.");
+                .body("Erro de integridade de dados: E-mail já cadastrado ou muito grande.");
     }
 
     @ExceptionHandler(RuntimeException.class)

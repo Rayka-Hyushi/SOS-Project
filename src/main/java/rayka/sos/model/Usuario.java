@@ -37,7 +37,7 @@ public class Usuario implements UserDetails {
     @Schema(description = "Nome do Usuário", example = "Rayka")
     private String name;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 100, unique = true)
     @Schema(description = "E-mail do Usuário", example = "example@gmail.com")
     private String email;
 
