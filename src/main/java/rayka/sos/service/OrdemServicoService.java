@@ -2,7 +2,6 @@ package rayka.sos.service;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rayka.sos.dto.OrdemServicoRequestDTO;
 import rayka.sos.model.*;
