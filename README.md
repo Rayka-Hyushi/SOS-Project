@@ -47,3 +47,8 @@ docker compose up -d --build
 
 3. Após a conclusão do processo, a aplicação estará disponível em `http://localhost:8081` e o banco de dados postgres
 estará acessível através de `http://localhost:5433/poow2`.
+
+
+# Créditos
+
+Este sistema foi desenvolvido completamente por [**Rayka Hyushi (Sidnei)**](https://github.com/Rayka-Hyushi).
