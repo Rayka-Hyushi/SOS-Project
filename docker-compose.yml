@@ -1,16 +1,36 @@
 services:
-  postgres:
+  database:
     image: postgres:17 #Imagem do postgres versão 17
-    container_name: postgresql #Nome do container do postgres
+    container_name: poow2 #Nome do container do postgres
     restart: always #Sempre reiniciar o container caso ele pare por algum motivo
     environment:
-        POSTGRES_USER: postgres #Usuario
-        POSTGRES_PASSWORD: 1234 #Senha
-        POSTGRES_DB: sos_database #E nome do banco
+      POSTGRES_USER: postgres #Usuario
+      POSTGRES_PASSWORD: 1234 #Senha
+      POSTGRES_DB: poow2 #E nome do banco
     ports:
-        - "5433:5432" #Porta onde roda o banco 5433:5432 = local:container
+      - "5433:5432" #Porta onde roda o banco 5433:5432 = local:container
     volumes:
-        - sos-system_data:/var/lib/postgresql/data #Volume para guardar dados do banco
+      - sos-system_data:/var/lib/postgresql/data #Volume para guardar dados do banco
+    networks:
+      - sos-net # Conecta o container à rede sos-net
+
+  java-app:
+    build:
+      context: . # Caminho do contexto de build (diretório atual)
+      dockerfile: Dockerfile # Caminho do Dockerfile para construir a imagem da aplicação java
+    container_name: sos-app # Nome do container da aplicação java
+    restart: unless-stopped # Reinicia o container a menos que ele seja parado manualmente
+    init: true # Adiciona um processo init para lidar com sinais e processos zumbis
+    ports:
+      - "8081:8080" # Porta onde roda a aplicação java 8081:8081 = local:container
+    networks:
+      - sos-net # Conecta o container à rede sos-net
+    depends_on:
+      - database # Garante que o container do postgres seja iniciado antes da aplicação java
+
+networks:
+  sos-net: # Define a rede personalizada sos-net
+    driver: bridge # Tipo de rede bridge
 
 volumes:
-  sos-system_data:
+  sos-system_data: # Define o volume para persistência de dados do banco
