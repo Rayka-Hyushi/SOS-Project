@@ -37,12 +37,12 @@ A aplicação pode ser executada facilmente utilizando Docker. O projeto já inc
 2. No diretório raiz do projeto, execute o comando abaixo para construir e iniciar os serviços:
 
 ```bash
-docker compose up --build
+docker-compose up --build
 ```
 Vai iniciar os serviços e acompanhar os logs no terminal. Se quiser rodar em segundo plano, adicione a flag `-d` ao comando:
 
 ```bash
-docker compose up -d --build
+docker-compose up -d --build
 ```
 
 3. Após a conclusão do processo, a aplicação estará disponível em `http://localhost:8081` e o banco de dados postgres
