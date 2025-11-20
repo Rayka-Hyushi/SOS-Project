@@ -1,0 +1,17 @@
+# Arquivo de configuração do editor para evitar incompatibilidade 
+# e erros de configuração do projeto
+# ---------------------------------------------------------------
+# Definir a configuração mestre
+root = true
+
+# Configura a formatação padrão do projeto e a codificação UTF-8
+[*]
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+indent_style = space
+indent_size = 4
+
+# Codificação explicíta do arquivo properties
+[*.properties]
+charset = utf-8
